@@ -121,6 +121,67 @@ void InsertListNode_ptr(struct ListNode *head, int position, int data){
     }
 }
 
+void InsertListNode_ptr2ptr(struct ListNode **head, int position, int data){
+    if(!*head) return;
+
+    int k = 1;
+    struct ListNode *newNode, *p;
+    newNode = createNewNode();
+    if(!newNode) return;
+
+    newNode->data = data;
+    p = *head;
+
+    if(position==1){
+        newNode->next = p;
+        *head = newNode;
+    }
+    else{
+        while(p->next && k < position-1){
+            k++;
+            p = p->next;
+        }
+        if(k == position-1){
+            printf("Position found \n");
+            newNode->next = p->next;
+            p->next = newNode;
+        }
+        else{
+            printf("Position not found: %d \n", k);
+        }
+    }
+}
+
+void DeleteListNode_ptr2ptr(struct ListNode **head, int position){
+    if(!head || position<=0) return;
+
+    struct ListNode *p, *q;
+    int k = 1;
+    p = *head;
+
+    if(position==1){
+        *head = (*head)->next;
+        free(p);
+        return;
+    }
+    else{
+        while(p->next && k < position-1){
+            k++;
+            p = p->next;
+        }
+
+        if(k == position-1 && p->next){
+            q = p->next;
+            p->next = q->next;
+            free(q);
+        }
+        else{
+            printf("position not found \n");
+            return;
+        }
+    }
+}
+
 int main()
 {
     struct ListNode *head = NULL;
@@ -129,17 +190,24 @@ int main()
 
     printf("Length of the Linked List : %d \n", ListLength(head));
 
-    InsertListNode_ptr(head, 1, 10);
+    // InsertListNode_ptr(head, 1, 10);
 
+    // iterateList(head);
+
+    // printf("Length of the Linked List : %d \n", ListLength(head));
+
+    // InsertListNode_ptr(head, 4, 0);
+    // InsertListNode_ptr2ptr(&head, 8, 14581);
+
+    // iterateList(head);
+
+    // printf("Length of the Linked List : %d \n", ListLength(head));
+
+    DeleteListNode_ptr2ptr(&head, 6);
     iterateList(head);
-
     printf("Length of the Linked List : %d \n", ListLength(head));
 
-    InsertListNode_ptr(head, 6, 102);
 
-    iterateList(head);
-
-    printf("Length of the Linked List : %d \n", ListLength(head));
 
     // free();
 
