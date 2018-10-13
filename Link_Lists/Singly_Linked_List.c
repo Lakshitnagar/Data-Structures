@@ -60,7 +60,7 @@ void iterateList(struct ListNode *head){
         nextNode = nextNode->next;
         i++;
     }
-    printf("Data at %dth location : %d \n", i, currNode->data);
+    printf("Data at %dth location : %d \n \n", i, currNode->data);
 
 }
 
@@ -199,9 +199,8 @@ int main()
 {
     struct ListNode *head = NULL;
     head = generateRandomLinkedList(5);
+    printf("****** LENGTH: %d ****** \n", ListLength(head));
     iterateList(head);
-
-    printf("Length of the Linked List : %d \n", ListLength(head));
 
     // InsertListNode_ptr(head, 1, 10);
 
@@ -216,13 +215,25 @@ int main()
 
     // printf("Length of the Linked List : %d \n", ListLength(head));
 
-    // DeleteListNode_ptr2ptr(&head, 6);
-    // iterateList(head);
-    // printf("Length of the Linked List : %d \n", ListLength(head));
-
-    DeleteCompleteList(&head);
+    DeleteListNode_ptr2ptr(&head, 5);
+    printf("****** LENGTH: %d ****** \n", ListLength(head));
     iterateList(head);
-    printf("Length of the Linked List : %d \n", ListLength(head));
+
+    DeleteListNode_ptr2ptr(&head, 4);
+    printf("****** LENGTH: %d ****** \n", ListLength(head));
+    iterateList(head);
+
+    DeleteListNode_ptr2ptr(&head, 3);
+    printf("****** LENGTH: %d ****** \n", ListLength(head));
+    iterateList(head);
+
+    DeleteListNode_ptr2ptr(&head, 2);
+    printf("****** LENGTH: %d ****** \n", ListLength(head));
+    iterateList(head);
+
+    DeleteListNode_ptr2ptr(&head, 1);
+    printf("****** LENGTH: %d ****** \n", ListLength(head));
+    iterateList(head);
 
     return 0;
 }
