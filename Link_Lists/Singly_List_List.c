@@ -78,13 +78,68 @@ int ListLength(struct ListNode *head){
     return count;
 }
 
+void InsertListNode_ptr(struct ListNode *head, int position, int data){
+    if(!head) return;
+    struct ListNode *newNode, *tempNode, *p;
+    int k = 1;
+
+    newNode = createNewNode();
+    if(!newNode) return;
+
+    newNode->data = data;
+
+    if(position==1){
+        tempNode = createNewNode();
+        if(!tempNode) return;
+
+        newNode->next = newNode;
+        *tempNode = *head;
+        *head = *newNode;
+        *newNode = *tempNode;
+
+        free(tempNode);
+        return;
+    }
+    else {
+        p = head;
+        while((p->next) && k < position-1){
+            k++;
+            p = p->next;
+            printf("k: %d \n", k);
+        }
+
+        if(k == position-1){
+            printf("position found \n");
+            newNode->next = p->next;
+            p->next = newNode;
+            return;
+        }
+        else {
+            printf("***ListLength: %d , postion: %d ***\n", ListLength(head), position);
+            return;
+        }
+    }
+}
+
 int main()
 {
     struct ListNode *head = NULL;
     head = generateRandomLinkedList(5);
     iterateList(head);
 
-    printf("Length of the Linked List : %d", ListLength(head));
+    printf("Length of the Linked List : %d \n", ListLength(head));
+
+    InsertListNode_ptr(head, 1, 10);
+
+    iterateList(head);
+
+    printf("Length of the Linked List : %d \n", ListLength(head));
+
+    InsertListNode_ptr(head, 6, 102);
+
+    iterateList(head);
+
+    printf("Length of the Linked List : %d \n", ListLength(head));
 
     // free();
 
