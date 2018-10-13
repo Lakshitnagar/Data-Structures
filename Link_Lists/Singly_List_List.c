@@ -182,6 +182,19 @@ void DeleteListNode_ptr2ptr(struct ListNode **head, int position){
     }
 }
 
+void DeleteCompleteList(struct ListNode **head){
+    struct ListNode *iterator, *aux;
+    iterator = *head;
+
+    while(iterator){
+        aux = iterator->next;
+        free(iterator);
+        iterator = aux;
+    }
+
+    *head = NULL;
+}
+
 int main()
 {
     struct ListNode *head = NULL;
@@ -203,13 +216,13 @@ int main()
 
     // printf("Length of the Linked List : %d \n", ListLength(head));
 
-    DeleteListNode_ptr2ptr(&head, 6);
+    // DeleteListNode_ptr2ptr(&head, 6);
+    // iterateList(head);
+    // printf("Length of the Linked List : %d \n", ListLength(head));
+
+    DeleteCompleteList(&head);
     iterateList(head);
     printf("Length of the Linked List : %d \n", ListLength(head));
-
-
-
-    // free();
 
     return 0;
 }
