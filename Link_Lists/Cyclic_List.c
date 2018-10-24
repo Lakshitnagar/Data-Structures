@@ -110,13 +110,71 @@ int isCyclicList(struct ListNode *head){
     else return 0;
 }
 
+struct ListNode *findLoopStartPoint(struct ListNode *head){
+    if(!head) return NULL;
+
+    struct ListNode *slowPtr, *fastPtr;
+    int loopExist = 0;
+    slowPtr = fastPtr = head;
+
+    while(slowPtr && fastPtr && fastPtr->next){
+        slowPtr = slowPtr->next;
+        fastPtr = fastPtr->next->next;
+        if(slowPtr==fastPtr){
+            loopExist =1;
+            break;
+        }
+    }
+
+    if(loopExist){
+        slowPtr = head;
+        while(slowPtr!=fastPtr){
+            slowPtr = slowPtr->next;
+            fastPtr = fastPtr->next;
+        }
+        return slowPtr;
+    }
+    return NULL;
+}
+
+int findLoopLength(struct ListNode *head){
+    if(!head) return 0;
+
+    struct ListNode *slowPtr, *fastPtr;
+    slowPtr = fastPtr = head;
+    int loopLength = 0, loopExist = 0;
+
+    while(slowPtr && fastPtr && fastPtr->next){
+        slowPtr = slowPtr->next;
+        fastPtr = fastPtr->next->next;
+        if(slowPtr==fastPtr){
+            loopExist = 1;
+            break;
+        }
+    }
+    
+    if(loopExist){
+        fastPtr = fastPtr->next;
+        while(slowPtr!=fastPtr){
+            fastPtr = fastPtr->next;
+            loopLength++;
+        }
+        return loopLength;
+    }
+    return 0;
+}
+
 int main() {
-    int loopStart = 15;
-    int loopSize = 0;
+    int loopStart = 6;
+    int loopSize = 6;
     struct ListNode *head = generateCyclicList(loopStart, loopSize);
     iterateCyclicList(head, loopStart);
 
     printf("\nLoop status: %d\n", isCyclicList(head));
+
+    printf("\nLoop node point: %d\n", findLoopStartPoint(head));
+
+    printf("\nLoop length: %d\n", findLoopLength(head));
 
     return 0;
 }
