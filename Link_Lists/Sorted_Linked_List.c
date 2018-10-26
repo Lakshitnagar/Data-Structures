@@ -122,19 +122,39 @@ struct ListNode *reverseListIterative(struct ListNode *head){
     return prevNode;
 }
 
+struct ListNode *reverseListRecursive(struct ListNode *head){
+    if(!head) return NULL;
+
+    if(head->next==NULL) return head;
+
+    struct ListNode *secondNode = head->next;
+    head->next = NULL;
+
+    struct ListNode *rest = reverseListRecursive(secondNode);
+
+    secondNode->next = head;
+    return rest;
+}
+
 int main(){
     struct ListNode *head;
     head = generateSortedLinkedList(10);
-    iterateList(head);
-
     printf("List Length: %d\n", ListLength(head));
+    iterateList(head);
 
     struct ListNode *newNode = createNewNode();
     newNode->data = 90;
     insertNodeInSortedList(head, newNode);
+    printf("List Length: %d\n", ListLength(head));
     iterateList(head);
 
+    head = reverseListIterative(head);
     printf("List Length: %d\n", ListLength(head));
+    iterateList(head);
+
+    head = reverseListRecursive(head);
+    printf("List Length: %d\n", ListLength(head));
+    iterateList(head);
 
     return 0;
 }
