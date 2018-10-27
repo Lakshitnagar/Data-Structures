@@ -136,25 +136,50 @@ struct ListNode *reverseListRecursive(struct ListNode *head){
     return rest;
 }
 
+struct ListNode *merge2SortedList(struct ListNode *head1, struct ListNode *head2){
+    if(!head1&&!head2) return NULL;
+    if(!head1) return head2;
+    if(!head2) return head1;
+
+    struct ListNode *mergedList = merge2SortedList(head1->next, head2->next);
+
+    if(head1->data < head2->data){
+        head1->next = head2;
+        head2->next = mergedList;
+        return head1;
+    }
+    else{
+        head2->next = head1;
+        head1->next = mergedList;
+        return head2;
+    }
+}
+
 int main(){
-    struct ListNode *head;
-    head = generateSortedLinkedList(10);
-    printf("List Length: %d\n", ListLength(head));
-    iterateList(head);
+    // struct ListNode *head;
+    // head = generateSortedLinkedList(10);
+    // printf("List Length: %d\n", ListLength(head));
+    // iterateList(head);
 
-    struct ListNode *newNode = createNewNode();
-    newNode->data = 90;
-    insertNodeInSortedList(head, newNode);
-    printf("List Length: %d\n", ListLength(head));
-    iterateList(head);
+    // struct ListNode *newNode = createNewNode();
+    // newNode->data = 90;
+    // insertNodeInSortedList(head, newNode);
+    // printf("List Length: %d\n", ListLength(head));
+    // iterateList(head);
 
-    head = reverseListIterative(head);
-    printf("List Length: %d\n", ListLength(head));
-    iterateList(head);
+    // head = reverseListIterative(head);
+    // printf("List Length: %d\n", ListLength(head));
+    // iterateList(head);
 
-    head = reverseListRecursive(head);
-    printf("List Length: %d\n", ListLength(head));
-    iterateList(head);
+    // head = reverseListRecursive(head);
+    // printf("List Length: %d\n", ListLength(head));
+    // iterateList(head);
+
+    struct ListNode *head1 = generateSortedLinkedList(4);
+    struct ListNode *head2 = generateSortedLinkedList(11);
+    struct ListNode *merged = merge2SortedList(head1, head2);
+    printf("List Length: %d\n", ListLength(merged));
+    iterateList(merged);
 
     return 0;
 }
