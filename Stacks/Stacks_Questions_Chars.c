@@ -2,7 +2,7 @@
 #include<stdlib.h>
 
 struct StackNode{
-    int data;
+    char data;
     struct StackNode *next;
 };
 
@@ -18,20 +18,24 @@ struct StackNode *createNewStack(){
 
 void iterateStack(struct StackNode *head){
     struct StackNode *currNode, *nextNode;
+    printf("iterate stack\n");
 
-    if(!head) return;
+    if(!head) {
+        printf("empty head\n");
+        return;
+    };
     
     currNode = head;
     nextNode = currNode->next;
 
     int i=0;
     while(nextNode){
-        printf("Data at %dth location : %d \n", i, currNode->data);
+        printf("Data at %dth location : %c \n", i, currNode->data);
         currNode = nextNode;
         nextNode = nextNode->next;
         i++;
     }
-    printf("Data at %dth location : %d \n \n", i, currNode->data);
+    printf("Data at %dth location : %c \n \n", i, currNode->data);
 
 }
 
@@ -74,20 +78,49 @@ int pop(struct StackNode **top){
     return data;
 }
 
-int main(){
+
+int isSymbolsBalanced(char *s){
+    if(!s) return 0;
+
     struct StackNode *stack = createNewStack();
     struct StackNode **top = &stack;
+    char poppedItem;
 
-    push(top, 2);
-    push(top, 3);
-    push(top, 4);
-    push(top, 5);
+    while(*s){
+        printf("%c\n", *s);
+        if(*s=='(' || *s=='[' || *s=='{'){
+            push(top, *s);
+        }
 
-    iterateStack(stack);
-    printf("\n");
-    printf("popped item: %d\n", pop(top));
+        if(*s==')' || *s==']' || *s=='}'){
+            if(!isEmptyStack(*top))
+                poppedItem = pop(top); 
+            else
+                return 0;
+            
+            if((poppedItem=='('&&*s==')') || (poppedItem=='['&&*s==']') || (poppedItem=='{'&&*s=='}')){
+                s++;
+                continue;
+            }
+            else
+                return 0;
+        }
+        
+        s++;
+    }
 
-    iterateStack(stack);
+    iterateStack(*top);
+
+    if(isEmptyStack(*top))
+        return 1;
+    else
+        return 0;
+}
+
+int main(){
+    char *string = "[(hello){sonu}]";
+    int balanceFlag = isSymbolsBalanced(string);
+    printf("is '%s' balanced? : %d\n", string, balanceFlag);
 
     return 0;
 }
