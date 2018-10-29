@@ -113,14 +113,58 @@ void advancedMinStackpop(struct AdvancedMinStack *AMStack){
     pop(&(AMStack->MinStack));
 }
 
+void advancedMinStackpush_modified(struct AdvancedMinStack *AMStack, int data){
+    if(AMStack->ElemStack==NULL && AMStack->MinStack==NULL){
+        push(&(AMStack->ElemStack), data);
+        push(&(AMStack->MinStack), data);
+    }
+    else{
+        push(&(AMStack->ElemStack), data);
+        if(data < top(AMStack->MinStack))
+            push(&(AMStack->MinStack), data);
+    }
+
+    return;
+}
+
+void advancedMinStackpop_modified(struct AdvancedMinStack *AMStack){
+    if(isEmptyStack(AMStack->ElemStack)) return;
+
+    int mainStackValue = pop(&(AMStack->ElemStack));
+    if(mainStackValue == top(AMStack->MinStack))
+        pop(&(AMStack->MinStack));
+
+    return;
+}
+
 int main(){
     struct AdvancedMinStack *AMStack = createAdvancedMinStack();
     struct StackNode **elemStakTop = &(AMStack->ElemStack);
     
-    advancedMinStackpush(AMStack, 2);
-    advancedMinStackpush(AMStack, 3);
-    advancedMinStackpush(AMStack, 1);
-    advancedMinStackpush(AMStack, -1);
+    // advancedMinStackpush(AMStack, 2);
+    // advancedMinStackpush(AMStack, 3);
+    // advancedMinStackpush(AMStack, 1);
+    // advancedMinStackpush(AMStack, -1);
+
+    // iterateStack(AMStack->ElemStack);
+
+    // iterateStack(AMStack->MinStack);
+
+    // printf("Minimum element: %d\n", top(AMStack->MinStack));
+
+    // advancedMinStackpop(AMStack);
+    // advancedMinStackpop(AMStack);
+
+    // iterateStack(AMStack->ElemStack);
+
+    // iterateStack(AMStack->MinStack);
+
+    // printf("Minimum element: %d\n", top(AMStack->MinStack));
+
+    advancedMinStackpush_modified(AMStack, 2);
+    advancedMinStackpush_modified(AMStack, 3);
+    advancedMinStackpush_modified(AMStack, 1);
+    advancedMinStackpush_modified(AMStack, -1);
 
     iterateStack(AMStack->ElemStack);
 
@@ -128,8 +172,8 @@ int main(){
 
     printf("Minimum element: %d\n", top(AMStack->MinStack));
 
-    advancedMinStackpop(AMStack);
-    advancedMinStackpop(AMStack);
+    advancedMinStackpop_modified(AMStack);
+    advancedMinStackpop_modified(AMStack);
 
     iterateStack(AMStack->ElemStack);
 
