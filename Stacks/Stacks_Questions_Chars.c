@@ -118,7 +118,7 @@ int isSymbolsBalanced(char *s){
 }
 
 int main(){
-    char *string = "[(hello){sonu}]";
+    char *string = "(((a+b)/(a-b))+c)*d)";
     int balanceFlag = isSymbolsBalanced(string);
     printf("is '%s' balanced? : %d\n", string, balanceFlag);
 
