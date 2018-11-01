@@ -1,6 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+#define ROW 4
+#define COLUMN 4
+
 struct StackNode{
     int data;
     struct StackNode *next;
@@ -89,7 +92,7 @@ void iterateArray(int a[], int n){
 
 // References
 // https://stackoverflow.com/questions/4311694/maximize-the-rectangular-area-under-histogram
-void largest_histogram(int a[], int n){
+int largest_histogram(int a[], int n){
     struct StackNode *stk = createNewStack();
     int max_area = 0, height, area, currPos;
     int l,r;
@@ -144,15 +147,35 @@ void largest_histogram(int a[], int n){
     }
     printf("Max area is : %d\n", max_area);
     printf("Left : %d, Right : %d\n", l, r);
+    return max_area;
+}
+
+void largest_area(int a[][COLUMN]){
+    int max_area = largest_histogram(a[0], COLUMN);
+    int row_area = 0;
+    
+    for(int i=1; i<ROW; i++){
+        for(int j=0; j<COLUMN; j++){
+            if(a[i][j]) a[i][j] += a[i-1][j];
+        }
+        row_area = largest_histogram(a[i], COLUMN);
+        if(row_area > max_area){
+            max_area = row_area;
+        }
+    }
+
+    printf("max area: %d\n", max_area);
 }
 
 int main(){
-    // int a[] = {2, 3, 1, 4, 5, 4, 2};
-    int a[] = {5, 4, 3, 2, 4, 3};
-    int n = sizeof(a)/sizeof(a[0]); 
-    int s[n];
+    int a[][COLUMN] = {
+        {0, 1, 1, 0},
+        {1, 1, 1, 1},
+        {1, 1, 1, 1},
+        {1, 1, 0, 0}
+    };
 
-    largest_histogram(a, n);
+    largest_area(a);
 
     return 0;
 }
