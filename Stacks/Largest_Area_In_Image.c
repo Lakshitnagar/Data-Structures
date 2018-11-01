@@ -103,7 +103,7 @@ int largest_histogram(int a[], int n){
             height = a[currPos];
 
             if(isEmptyStack(stk)){
-                area = height * (i - currPos);
+                area = height * i;
             }
             else
                 area = height * (i - top(stk) - 1);
@@ -131,7 +131,7 @@ int largest_histogram(int a[], int n){
         if(isEmptyStack(stk))
             area = height * n;
         else 
-            area = height * (currPos - top(stk));
+            area = height * (n - top(stk) - 1);
 
         if(area > max_area){
             max_area = area;
@@ -145,8 +145,6 @@ int largest_histogram(int a[], int n){
             }
         }
     }
-    printf("Max area is : %d\n", max_area);
-    printf("Left : %d, Right : %d\n", l, r);
     return max_area;
 }
 
