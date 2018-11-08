@@ -18,6 +18,19 @@ struct BinaryTreeNode *createNewBTNode(){
     return BTNode;
 }
 
+struct BinaryTreeNode *createFullBinaryTree_Preorder(int depth){
+    static int data = 1;
+    struct BinaryTreeNode *BTNode;
+    BTNode = createNewBTNode();
+    BTNode->data = data++;
+
+    if(depth == 0) return BTNode;
+    BTNode->left = createFullBinaryTree_recursive(depth - 1);
+    BTNode->right = createFullBinaryTree_recursive(depth - 1);
+
+    return BTNode;
+}
+
 int main(){
     struct BinaryTreeNode *BTRoot, *BTLeft, *BTRight;
     BTRoot = createNewBTNode();
