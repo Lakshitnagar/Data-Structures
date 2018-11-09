@@ -121,45 +121,7 @@ struct BinaryTreeNode *createNewBTNode(){
     return BTNode;
 }
 
-//         1
-//        / \
-//       /   \
-//      2     3
-//     / \   / \
-//    4   5 6   7
-struct BinaryTreeNode *createFullBinaryTree(){
-    struct BinaryTreeNode *BTRoot, *BTNode2, *BTNode3, *BTNode4, *BTNode5, *BTNode6, *BTNode7;
-    BTRoot = createNewBTNode();
-    BTNode2 = createNewBTNode();
-    BTNode3 = createNewBTNode();
-    BTNode4 = createNewBTNode();
-    BTNode5 = createNewBTNode();
-    BTNode6 = createNewBTNode();
-    BTNode7 = createNewBTNode();
-    if(!BTRoot || !BTNode2 || !BTNode3 || !BTNode4 || !BTNode5 || !BTNode6 || !BTNode7)
-        return NULL;
-
-    BTNode7->data = 7;
-    BTNode6->data = 6;
-    BTNode5->data = 5;
-    BTNode4->data = 4;
-
-    BTNode2->data = 2;
-    BTNode2->left = BTNode4;
-    BTNode2->right = BTNode5;
-
-    BTNode3->data = 3;
-    BTNode3->left = BTNode6;
-    BTNode3->right = BTNode7;
-
-    BTRoot->data = 1;
-    BTRoot->left = BTNode2;
-    BTRoot->right = BTNode3;
-
-    return BTRoot;
-}
-
-struct BinaryTreeNode *createFullBinaryTree_iterative(int depth){
+struct BinaryTreeNode *createFullBinaryTree_LevelOrder_iterative(int depth){
     struct Queue *Q = createNewQueue();
     struct BinaryTreeNode *BTRoot = createNewBTNode();
     int count = 1;
@@ -192,19 +154,6 @@ struct BinaryTreeNode *createFullBinaryTree_iterative(int depth){
     return BTRoot;
 }
 
-struct BinaryTreeNode *createFullBinaryTree_recursive(int depth){
-    static int data = 1;
-    struct BinaryTreeNode *BTNode;
-    BTNode = createNewBTNode();
-    BTNode->data = data++;
-
-    if(depth == 0) return BTNode;
-    BTNode->left = createFullBinaryTree_recursive(depth - 1);
-    BTNode->right = createFullBinaryTree_recursive(depth - 1);
-
-    return BTNode;
-}
-
 void preOrderTraversal_Recursive(struct BinaryTreeNode *root){
     if(root){
         printf("node : %d\n", root->data);
@@ -215,7 +164,7 @@ void preOrderTraversal_Recursive(struct BinaryTreeNode *root){
 
 int main(){
     struct BinaryTreeNode *BTRoot;
-    BTRoot = createFullBinaryTree_iterative(3);
+    BTRoot = createFullBinaryTree_LevelOrder_iterative(2);
 
     preOrderTraversal_Recursive(BTRoot);
 
