@@ -163,12 +163,12 @@ struct BinaryTreeNode *createFullBinaryTree_iterative(int depth){
     struct Queue *Q = createNewQueue();
     struct BinaryTreeNode *BTRoot = createNewBTNode();
     int count = 1;
+    BTRoot->data = count++;
     enQueue(Q, BTRoot);
 
     while(ListLength(Q->front) < pow(2, depth)){
         struct BinaryTreeNode *FrontBTNode = Q->front->BTNode;
         struct BinaryTreeNode *left, *right;
-        FrontBTNode->data = count++;
 
         if(!FrontBTNode->left){
             left = createNewBTNode();
@@ -183,6 +183,7 @@ struct BinaryTreeNode *createFullBinaryTree_iterative(int depth){
             FrontBTNode->right = right;
             enQueue(Q, right);
         }
+
         deQueue(Q);
     }
 
@@ -212,7 +213,7 @@ void preOrderTraversal_Recursive(struct BinaryTreeNode *root){
 
 int main(){
     struct BinaryTreeNode *BTRoot;
-    BTRoot = createFullBinaryTree_recursive(3);
+    BTRoot = createFullBinaryTree_iterative(3);
 
     preOrderTraversal_Recursive(BTRoot);
 
