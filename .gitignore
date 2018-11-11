@@ -7,3 +7,4 @@ Trees/*.exe
 .vs/VSWorkspaceState.json
 .vs/slnx.sqlite
 .vs/Data Structures/v15/.suo
+.vscode/c_cpp_properties.json

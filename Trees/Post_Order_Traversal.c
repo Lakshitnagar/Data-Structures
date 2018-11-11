@@ -116,40 +116,58 @@ void postOrderTraversal_recursive(struct BinaryTreeNode *root){
     }
 }
 
-void postOrderTraversal_iterative(struct BinaryTreeNode *root){
-    struct StackNode *S = createNewStack();
-    struct StackNode **top = &S;
-    push(top, root);
-    struct BinaryTreeNode *prev = NULL;
-
-    while(!isEmptyStack(S)){
-        printf("q\n");
-        struct BinaryTreeNode *curr = pop(top);
-
-        if(!prev || prev->left == curr || prev->right == curr){
-            printf("down the tree\n");
-            if(curr->left)
-                push(top, curr->left);
-            else if(curr->right)
-                push(top, curr->right);
-        }
-        else if(curr->left == prev){
-            printf("up the tree\n");
-            if(curr->right)
-                push(top, curr->right);
-        }
-        else{
-            printf("current access\n");
-            printf("Node : %d\n", curr->data);
-            pop(top);
-        }
-        prev = curr;
-    }
+struct BinaryTreeNode *peek(struct StackNode *stack) 
+{ 
+    if (isEmptyStack(stack)) 
+        return NULL; 
+    return stack->BTNode; 
 }
+// An iterative function to do postorder traversal of a given binary tree 
+void postOrderTraversal_iterative(struct BinaryTreeNode *root) 
+{ 
+    // Check for empty tree 
+    if (root == NULL) 
+        return; 
+      
+    struct StackNode *stk = createNewStack(); 
+    struct StackNode **stack = &stk;
+    do
+    { 
+        // Move to leftmost node 
+        while (root) 
+        { 
+            // Push root's right child and then root to stack. 
+            if (root->right) 
+                push(stack, root->right); 
+            push(stack, root); 
+  
+            // Set root as root's left child   
+            root = root->left; 
+        } 
+  
+        // Pop an item from stack and set it as root     
+        root = pop(stack); 
+  
+        // If the popped item has a right child and the right child is not 
+        // processed yet, then make sure right child is processed before root 
+        if (root->right && peek(stk) == root->right) 
+        { 
+            pop(stack);  // remove right child from stack 
+            push(stack, root);  // push root back to stack 
+            root = root->right; // change root so that the right  
+                                // child is processed next 
+        } 
+        else  // Else print root's data and set root as NULL 
+        { 
+            printf("Node : %d\n", root->data); 
+            root = NULL; 
+        } 
+    } while (!isEmptyStack(stk)); 
+} 
 
 int main(){
     struct BinaryTreeNode *BTRoot;
-    BTRoot = createFullBinaryTree_recursive(2);
+    BTRoot = createFullBinaryTree_recursive(3);
 
     postOrderTraversal_iterative(BTRoot);
 
